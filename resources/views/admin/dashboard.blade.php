@@ -4,482 +4,880 @@
     {{config('app.name')}} - Dashboard
 @endsection
 
-@section('content')
-        <div class="container-fluid">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <div class="row align-items-center mb-2">
-                <div class="col">
-                  <h2 class="h5 page-title">Welcome!</h2>
+@section('content')            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row gy-6">
+                <!-- Congratulations card -->
+                <div class="col-md-12 col-lg-4">
+                  <div class="card">
+                    <div class="card-body text-nowrap">
+                      <h5 class="card-title mb-0 flex-wrap text-nowrap">Congratulations Norris! 🎉</h5>
+                      <p class="mb-2">Best seller of the month</p>
+                      <h4 class="text-primary mb-0">$42.8k</h4>
+                      <p class="mb-2">78% of target 🚀</p>
+                      <a href="javascript:;" class="btn btn-sm btn-primary">View Sales</a>
+                    </div>
+                    <img
+                      src="../assets/img/illustrations/trophy.png"
+                      class="position-absolute bottom-0 end-0 me-5 mb-5"
+                      width="83"
+                      alt="view sales" />
+                  </div>
                 </div>
-                <div class="col-auto">
-                  <form class="form-inline">
-                    <div class="form-group d-none d-lg-inline">
-                      <label for="reportrange" class="sr-only">Date Ranges</label>
-                      <div id="reportrange" class="px-2 py-2 text-muted">
-                        <span class="small"></span>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <button type="button" class="btn btn-sm"><span class="fe fe-refresh-ccw fe-16 text-muted"></span></button>
-                      <button type="button" class="btn btn-sm mr-2"><span class="fe fe-filter fe-16 text-muted"></span></button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div class="mb-2 align-items-center">
-                <div class="card shadow mb-4">
-                  <div class="card-body">
-                    <div class="row mt-1 align-items-center">
-                      <div class="col-12 col-lg-4 text-left pl-4">
-                        <p class="mb-1 small text-muted">Balance</p>
-                        <span class="h3">$12,600</span>
-                        <span class="small text-muted">+20%</span>
-                        <span class="fe fe-arrow-up text-success fe-12"></span>
-                        <p class="text-muted mt-2"> Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui </p>
-                      </div>
-                      <div class="col-6 col-lg-2 text-center py-4">
-                        <p class="mb-1 small text-muted">Today</p>
-                        <span class="h3">$2600</span><br />
-                        <span class="small text-muted">+20%</span>
-                        <span class="fe fe-arrow-up text-success fe-12"></span>
-                      </div>
-                      <div class="col-6 col-lg-2 text-center py-4 mb-2">
-                        <p class="mb-1 small text-muted">Goal Value</p>
-                        <span class="h3">$260</span><br />
-                        <span class="small text-muted">+6%</span>
-                        <span class="fe fe-arrow-up text-success fe-12"></span>
-                      </div>
-                      <div class="col-6 col-lg-2 text-center py-4">
-                        <p class="mb-1 small text-muted">Completions</p>
-                        <span class="h3">26</span><br />
-                        <span class="small text-muted">+20%</span>
-                        <span class="fe fe-arrow-up text-success fe-12"></span>
-                      </div>
-                      <div class="col-6 col-lg-2 text-center py-4">
-                        <p class="mb-1 small text-muted">Conversion</p>
-                        <span class="h3">6%</span><br />
-                        <span class="small text-muted">-2%</span>
-                        <span class="fe fe-arrow-down text-danger fe-12"></span>
-                      </div>
-                    </div>
-                    <div class="chartbox mr-4">
-                      <div id="areaChart"></div>
-                    </div>
-                  </div> <!-- .card-body -->
-                </div> <!-- .card -->
-              </div>
-              <div class="row items-align-baseline">
-                <div class="col-md-12 col-lg-4">
-                  <div class="card shadow eq-card mb-4">
-                    <div class="card-body mb-n3">
-                      <div class="row items-align-baseline h-100">
-                        <div class="col-md-6 my-3">
-                          <p class="mb-0"><strong class="mb-0 text-uppercase text-muted">Earning</strong></p>
-                          <h3>$2,562</h3>
-                          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                        <div class="col-md-6 my-4 text-center">
-                          <div lass="chart-box mx-4">
-                            <div id="radialbarWidget"></div>
-                          </div>
-                        </div>
-                        <div class="col-md-6 border-top py-3">
-                          <p class="mb-1"><strong class="text-muted">Cost</strong></p>
-                          <h4 class="mb-0">108</h4>
-                          <p class="small text-muted mb-0"><span>37.7% Last week</span></p>
-                        </div> <!-- .col -->
-                        <div class="col-md-6 border-top py-3">
-                          <p class="mb-1"><strong class="text-muted">Revenue</strong></p>
-                          <h4 class="mb-0">1168</h4>
-                          <p class="small text-muted mb-0"><span>-18.9% Last week</span></p>
-                        </div> <!-- .col -->
-                      </div>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </div> <!-- .col -->
-                <div class="col-md-12 col-lg-4">
-                  <div class="card shadow eq-card mb-4">
-                    <div class="card-body">
-                      <div class="chart-widget mb-2">
-                        <div id="radialbar"></div>
-                      </div>
-                      <div class="row items-align-center">
-                        <div class="col-4 text-center">
-                          <p class="text-muted mb-1">Cost</p>
-                          <h6 class="mb-1">$1,823</h6>
-                          <p class="text-muted mb-0">+12%</p>
-                        </div>
-                        <div class="col-4 text-center">
-                          <p class="text-muted mb-1">Revenue</p>
-                          <h6 class="mb-1">$6,830</h6>
-                          <p class="text-muted mb-0">+8%</p>
-                        </div>
-                        <div class="col-4 text-center">
-                          <p class="text-muted mb-1">Earning</p>
-                          <h6 class="mb-1">$4,830</h6>
-                          <p class="text-muted mb-0">+8%</p>
-                        </div>
-                      </div>
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </div> <!-- .col -->
-                <div class="col-md-12 col-lg-4">
-                  <div class="card shadow eq-card mb-4">
-                    <div class="card-body">
-                      <div class="d-flex mt-3 mb-4">
-                        <div class="flex-fill pt-2">
-                          <p class="mb-0 text-muted">Total</p>
-                          <h4 class="mb-0">108</h4>
-                          <span class="small text-muted">+37.7%</span>
-                        </div>
-                        <div class="flex-fill chart-box mt-n2">
-                          <div id="barChartWidget"></div>
-                        </div>
-                      </div> <!-- .d-flex -->
-                      <div class="row border-top">
-                        <div class="col-md-6 pt-4">
-                          <h6 class="mb-0">108 <span class="small text-muted">+37.7%</span></h6>
-                          <p class="mb-0 text-muted">Cost</p>
-                        </div>
-                        <div class="col-md-6 pt-4">
-                          <h6 class="mb-0">1168 <span class="small text-muted">-18.9%</span></h6>
-                          <p class="mb-0 text-muted">Revenue</p>
-                        </div>
-                      </div> <!-- .row -->
-                    </div> <!-- .card-body -->
-                  </div> <!-- .card -->
-                </div> <!-- .col-md -->
-              </div> <!-- .row -->
-              <div class="row">
-                <!-- Recent Activity -->
-                <div class="col-md-12 col-lg-4 mb-4">
-                  <div class="card timeline shadow">
+                <!--/ Congratulations card -->
+
+                <!-- Transactions -->
+                <div class="col-lg-8">
+                  <div class="card h-100">
                     <div class="card-header">
-                      <strong class="card-title">Recent Activity</strong>
-                      <a class="float-right small text-muted" href="#!">View all</a>
+                      <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="card-title m-0 me-2">Transactions</h5>
+                        <div class="dropdown">
+                          <button
+                            class="btn text-body-secondary p-0"
+                            type="button"
+                            id="transactionID"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="icon-base ri ri-more-2-line icon-24px"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
+                            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Update</a>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="small mb-0"><span class="h6 mb-0">Total 48.5% Growth</span> 😎 this month</p>
                     </div>
-                    <div class="card-body" data-simplebar style="height:355px; overflow-y: auto; overflow-x: hidden;">
-                      <h6 class="text-uppercase text-muted mb-4">Today</h6>
-                      <div class="pb-3 timeline-item item-primary">
-                        <div class="pl-5">
-                          <div class="mb-1"><strong>@Brown Asher</strong><span class="text-muted small mx-2">Just create new layout Index, form, table</span><strong>Tiny Admin</strong></div>
-                          <p class="small text-muted">Creative Design <span class="badge badge-light">1h ago</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="pb-3 timeline-item item-warning">
-                        <div class="pl-5">
-                          <div class="mb-3"><strong>@Hester Nissim</strong><span class="text-muted small mx-2">has upload new files to</span><strong>Tiny Admin</strong></div>
-                          <div class="row mb-3">
-                            <div class="col"><img src="./assets/products/p1.jpg" alt="..." class="img-fluid rounded"></div>
-                            <div class="col"><img src="./assets/products/p2.jpg" alt="..." class="img-fluid rounded"></div>
-                            <div class="col"><img src="./assets/products/p3.jpg" alt="..." class="img-fluid rounded"></div>
-                            <div class="col"><img src="./assets/products/p4.jpg" alt="..." class="img-fluid rounded"></div>
+                    <div class="card-body pt-lg-10">
+                      <div class="row g-6">
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar">
+                              <div class="avatar-initial bg-primary rounded shadow-xs">
+                                <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
+                              </div>
+                            </div>
+                            <div class="ms-3">
+                              <p class="mb-0">Sales</p>
+                              <h5 class="mb-0">245k</h5>
+                            </div>
                           </div>
-                          <p class="small text-muted">Front-End Development <span class="badge badge-light">1h ago</span>
-                          </p>
                         </div>
-                      </div>
-                      <div class="pb-3 timeline-item item-success">
-                        <div class="pl-5">
-                          <div class="mb-3"><strong>@Kelley Sonya</strong><span class="text-muted small mx-2">has commented on</span><strong>Advanced table</strong></div>
-                          <div class="card d-inline-flex mb-2">
-                            <div class="card-body bg-light py-2 px-3 small rounded"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim nulla eu quam cursus placerat. Vivamus non odio ullamcorper, lacinia ante nec, blandit leo. </div>
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar">
+                              <div class="avatar-initial bg-success rounded shadow-xs">
+                                <i class="icon-base ri ri-group-line icon-24px"></i>
+                              </div>
+                            </div>
+                            <div class="ms-3">
+                              <p class="mb-0">Customers</p>
+                              <h5 class="mb-0">12.5k</h5>
+                            </div>
                           </div>
-                          <p class="small text-muted">Back-End Development <span class="badge badge-light">1h ago</span>
-                          </p>
+                        </div>
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar">
+                              <div class="avatar-initial bg-warning rounded shadow-xs">
+                                <i class="icon-base ri ri-macbook-line icon-24px"></i>
+                              </div>
+                            </div>
+                            <div class="ms-3">
+                              <p class="mb-0">Product</p>
+                              <h5 class="mb-0">1.54k</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar">
+                              <div class="avatar-initial bg-info rounded shadow-xs">
+                                <i class="icon-base ri ri-money-dollar-circle-line icon-24px"></i>
+                              </div>
+                            </div>
+                            <div class="ms-3">
+                              <p class="mb-0">Revenue</p>
+                              <h5 class="mb-0">$88k</h5>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <h6 class="text-uppercase text-muted mb-4">Yesterday</h6>
-                      <div class="pb-3 timeline-item item-warning">
-                        <div class="pl-5">
-                          <div class="mb-3"><strong>@Fletcher Everett</strong><span class="text-muted small mx-2">created new group for</span><strong>Tiny Admin</strong></div>
-                          <ul class="avatars-list mb-3">
-                            <li>
-                              <a href="#!" class="avatar avatar-sm">
-                                <img alt="..." class="avatar-img rounded-circle" src="./assets/avatars/face-1.jpg">
-                              </a>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Transactions -->
+
+                <!-- Weekly Overview Chart -->
+                <div class="col-xl-4 col-md-6">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="mb-1">Weekly Overview</h5>
+                        <div class="dropdown">
+                          <button
+                            class="btn text-body-secondary p-0"
+                            type="button"
+                            id="weeklyOverviewDropdown"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="icon-base ri ri-more-2-line icon-24px"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="weeklyOverviewDropdown">
+                            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Update</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body pt-lg-2">
+                      <div id="weeklyOverviewChart"></div>
+                      <div class="mt-1 mt-md-3">
+                        <div class="d-flex align-items-center gap-4">
+                          <h4 class="mb-0">45%</h4>
+                          <p class="mb-0">Your sales performance is 45% 😎 better compared to last month</p>
+                        </div>
+                        <div class="d-grid mt-3 mt-md-4">
+                          <button class="btn btn-primary" type="button">Details</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Weekly Overview Chart -->
+
+                <!-- Total Earnings -->
+                <div class="col-xl-4 col-md-6">
+                  <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                      <h5 class="card-title m-0 me-2">Total Earning</h5>
+                      <div class="dropdown">
+                        <button
+                          class="btn text-body-secondary p-0"
+                          type="button"
+                          id="totalEarnings"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="icon-base ri ri-more-2-line icon-24px"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalEarnings">
+                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body pt-lg-8">
+                      <div class="mb-5 mb-lg-12">
+                        <div class="d-flex align-items-center">
+                          <h3 class="mb-0">$24,895</h3>
+                          <span class="text-success ms-2">
+                            <i class="icon-base ri ri-arrow-up-s-line icon-sm"></i>
+                            <span>10%</span>
+                          </span>
+                        </div>
+                        <p class="mb-0">Compared to $84,325 last year</p>
+                      </div>
+                      <ul class="p-0 m-0">
+                        <li class="d-flex mb-6">
+                          <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
+                            <img src="../assets/img/icons/misc/zipcar.png" alt="zipcar" />
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Zipcar</h6>
+                              <p class="mb-0">Vuejs, React & HTML</p>
+                            </div>
+                            <div>
+                              <h6 class="mb-2">$24,895.65</h6>
+                              <div class="progress bg-label-primary" style="height: 4px">
+                                <div
+                                  class="progress-bar bg-primary"
+                                  style="width: 75%"
+                                  role="progressbar"
+                                  aria-valuenow="75"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-6">
+                          <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
+                            <img src="../assets/img/icons/misc/bitbank.png" alt="bitbank" />
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Bitbank</h6>
+                              <p class="mb-0">Sketch, Figma & XD</p>
+                            </div>
+                            <div>
+                              <h6 class="mb-2">$8,6500.20</h6>
+                              <div class="progress bg-label-info" style="height: 4px">
+                                <div
+                                  class="progress-bar bg-info"
+                                  style="width: 75%"
+                                  role="progressbar"
+                                  aria-valuenow="75"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex">
+                          <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
+                            <img src="../assets/img/icons/misc/aviato.png" alt="aviato" />
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Aviato</h6>
+                              <p class="mb-0">HTML & Angular</p>
+                            </div>
+                            <div>
+                              <h6 class="mb-2">$1,2450.80</h6>
+                              <div class="progress bg-label-secondary" style="height: 4px">
+                                <div
+                                  class="progress-bar bg-secondary"
+                                  style="width: 75%"
+                                  role="progressbar"
+                                  aria-valuenow="75"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Total Earnings -->
+
+                <!-- Four Cards -->
+                <div class="col-xl-4 col-md-6">
+                  <div class="row gy-6">
+                    <!-- Total Profit line chart -->
+                    <div class="col-sm-6">
+                      <div class="card h-100">
+                        <div class="card-header pb-0">
+                          <h4 class="mb-0">$86.4k</h4>
+                        </div>
+                        <div class="card-body">
+                          <div id="totalProfitLineChart" class="mb-3"></div>
+                          <h6 class="text-center mb-0">Total Profit</h6>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ Total Profit line chart -->
+                    <!-- Total Profit Weekly Project -->
+                    <div class="col-sm-6">
+                      <div class="card h-100">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                          <div class="avatar">
+                            <div class="avatar-initial bg-secondary rounded-circle shadow-xs">
+                              <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
+                            </div>
+                          </div>
+                          <div class="dropdown">
+                            <button
+                              class="btn text-body-secondary p-0"
+                              type="button"
+                              id="totalProfitID"
+                              data-bs-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false">
+                              <i class="icon-base ri ri-more-2-line icon-24px"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalProfitID">
+                              <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                              <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                              <a class="dropdown-item" href="javascript:void(0);">Update</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <h6 class="mb-1">Total Profit</h6>
+                          <div class="d-flex flex-wrap mb-1 align-items-center">
+                            <h4 class="mb-0 me-2">$25.6k</h4>
+                            <p class="text-success mb-0">+42%</p>
+                          </div>
+                          <small>Weekly Project</small>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ Total Profit Weekly Project -->
+                    <!-- New Yearly Project -->
+                    <div class="col-sm-6">
+                      <div class="card h-100">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                          <div class="avatar">
+                            <div class="avatar-initial bg-primary rounded-circle shadow-xs">
+                              <i class="icon-base ri ri-file-word-2-line icon-24px"></i>
+                            </div>
+                          </div>
+                          <div class="dropdown">
+                            <button
+                              class="btn text-body-secondary p-0"
+                              type="button"
+                              id="newProjectID"
+                              data-bs-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false">
+                              <i class="icon-base ri ri-more-2-line icon-24px"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="newProjectID">
+                              <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                              <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                              <a class="dropdown-item" href="javascript:void(0);">Update</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <h6 class="mb-1">New Project</h6>
+                          <div class="d-flex flex-wrap mb-1 align-items-center">
+                            <h4 class="mb-0 me-2">862</h4>
+                            <p class="text-danger mb-0">-18%</p>
+                          </div>
+                          <small>Yearly Project</small>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ New Yearly Project -->
+                    <!-- Sessions chart -->
+                    <div class="col-sm-6">
+                      <div class="card h-100">
+                        <div class="card-header pb-0">
+                          <h4 class="mb-0">2,856</h4>
+                        </div>
+                        <div class="card-body">
+                          <div id="sessionsColumnChart" class="mb-3"></div>
+                          <h6 class="text-center mb-0">Sessions</h6>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ Sessions chart -->
+                  </div>
+                </div>
+                <!--/ four cards -->
+
+                <!-- Sales by Countries -->
+                <div class="col-xl-4 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                      <h5 class="card-title m-0 me-2">Sales by Countries</h5>
+                      <div class="dropdown">
+                        <button
+                          class="btn text-body-secondary p-0"
+                          type="button"
+                          id="saleStatus"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="icon-base ri ri-more-2-line icon-24px"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="saleStatus">
+                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center mb-4">
+                          <div class="avatar me-4">
+                            <div class="avatar-initial bg-label-success rounded-circle">US</div>
+                          </div>
+                          <div>
+                            <div class="d-flex align-items-center gap-1 mb-1">
+                              <h6 class="mb-0">$8,656k</h6>
+                              <i class="icon-base ri ri-arrow-up-s-line icon-24px text-success"></i>
+                              <span class="text-success">25.8%</span>
+                            </div>
+                            <p class="mb-0">United states of america</p>
+                          </div>
+                        </div>
+                        <div class="text-end">
+                          <h6 class="mb-1">894k</h6>
+                          <small class="text-body-secondary">Sales</small>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center mb-4">
+                          <div class="avatar me-4">
+                            <span class="avatar-initial bg-label-danger rounded-circle">UK</span>
+                          </div>
+                          <div>
+                            <div class="d-flex align-items-center gap-1 mb-1">
+                              <h6 class="mb-0">$2,415k</h6>
+                              <i class="icon-base ri ri-arrow-down-s-line icon-24px text-danger"></i>
+                              <span class="text-danger">6.2%</span>
+                            </div>
+                            <p class="mb-0">United Kingdom</p>
+                          </div>
+                        </div>
+                        <div class="text-end">
+                          <h6 class="mb-1">645k</h6>
+                          <small class="text-body-secondary">Sales</small>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center mb-4">
+                          <div class="avatar me-4">
+                            <span class="avatar-initial bg-label-warning rounded-circle">IN</span>
+                          </div>
+                          <div>
+                            <div class="d-flex align-items-center gap-1 mb-1">
+                              <h6 class="mb-0">865k</h6>
+                              <i class="icon-base ri ri-arrow-up-s-line icon-24px text-success"></i>
+                              <span class="text-success"> 12.4%</span>
+                            </div>
+                            <p class="mb-0">India</p>
+                          </div>
+                        </div>
+                        <div class="text-end">
+                          <h6 class="mb-1">148k</h6>
+                          <small class="text-body-secondary">Sales</small>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center mb-4">
+                          <div class="avatar me-4">
+                            <span class="avatar-initial bg-label-secondary rounded-circle">JA</span>
+                          </div>
+                          <div>
+                            <div class="d-flex align-items-center gap-1 mb-1">
+                              <h6 class="mb-0">$745k</h6>
+                              <i class="icon-base ri ri-arrow-down-s-line icon-24px text-danger"></i>
+                              <span class="text-danger">11.9%</span>
+                            </div>
+                            <p class="mb-0">Japan</p>
+                          </div>
+                        </div>
+                        <div class="text-end">
+                          <h6 class="mb-1">86k</h6>
+                          <small class="text-body-secondary">Sales</small>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <div class="avatar me-4">
+                            <span class="avatar-initial bg-label-danger rounded-circle">KO</span>
+                          </div>
+                          <div>
+                            <div class="d-flex align-items-center gap-1 mb-1">
+                              <h6 class="mb-0">$45k</h6>
+                              <i class="icon-base ri ri-arrow-up-s-line icon-24px text-success"></i>
+                              <span class="text-success">16.2%</span>
+                            </div>
+                            <p class="mb-0">Korea</p>
+                          </div>
+                        </div>
+                        <div class="text-end">
+                          <h6 class="mb-1">42k</h6>
+                          <small class="text-body-secondary">Sales</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Sales by Countries -->
+
+                <!-- Deposit / Withdraw -->
+                <div class="col-xl-8">
+                  <div class="card-group">
+                    <div class="card mb-0">
+                      <div class="card-body card-separator">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+                          <h5 class="m-0 me-2">Deposit</h5>
+                          <a class="fw-medium" href="javascript:void(0);">View all</a>
+                        </div>
+                        <div class="deposit-content pt-2">
+                          <ul class="p-0 m-0">
+                            <li class="d-flex mb-4 align-items-center pb-2">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/payments/gumroad.png"
+                                  class="img-fluid"
+                                  alt="gumroad"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">Gumroad Account</h6>
+                                  <p class="mb-0">Sell UI Kit</p>
+                                </div>
+                                <h6 class="text-success mb-0">+$4,650</h6>
+                              </div>
                             </li>
-                            <li>
-                              <a href="#!" class="avatar avatar-sm">
-                                <img alt="..." class="avatar-img rounded-circle" src="./assets/avatars/face-4.jpg">
-                              </a>
+                            <li class="d-flex mb-4 align-items-center pb-2">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/payments/mastercard-2.png"
+                                  class="img-fluid"
+                                  alt="mastercard"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">Mastercard</h6>
+                                  <p class="mb-0">Wallet deposit</p>
+                                </div>
+                                <h6 class="text-success mb-0">+$92,705</h6>
+                              </div>
                             </li>
-                            <li>
-                              <a href="#!" class="avatar avatar-sm">
-                                <img alt="..." class="avatar-img rounded-circle" src="./assets/avatars/face-3.jpg">
-                              </a>
+                            <li class="d-flex mb-4 align-items-center pb-2">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/payments/stripes.png"
+                                  class="img-fluid"
+                                  alt="stripes"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">Stripe Account</h6>
+                                  <p class="mb-0">iOS Application</p>
+                                </div>
+                                <h6 class="text-success mb-0">+$957</h6>
+                              </div>
+                            </li>
+                            <li class="d-flex mb-4 align-items-center pb-2">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/payments/american-bank.png"
+                                  class="img-fluid"
+                                  alt="american"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">American Bank</h6>
+                                  <p class="mb-0">Bank Transfer</p>
+                                </div>
+                                <h6 class="text-success mb-0">+$6,837</h6>
+                              </div>
+                            </li>
+                            <li class="d-flex align-items-center">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/payments/citi.png"
+                                  class="img-fluid"
+                                  alt="citi"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">Bank Account</h6>
+                                  <p class="mb-0">Wallet deposit</p>
+                                </div>
+                                <h6 class="text-success mb-0">+$446</h6>
+                              </div>
                             </li>
                           </ul>
-                          <p class="small text-muted">Front-End Development <span class="badge badge-light">1h ago</span>
-                          </p>
                         </div>
                       </div>
-                      <div class="pb-3 timeline-item item-success">
-                        <div class="pl-5">
-                          <div class="mb-3"><strong>@Bertha Ball</strong><span class="text-muted small mx-2">has commented on</span><strong>Advanced table</strong></div>
-                          <div class="card d-inline-flex mb-2">
-                            <div class="card-body bg-light py-2 px-3"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim nulla eu quam cursus placerat. Vivamus non odio ullamcorper, lacinia ante nec, blandit leo. </div>
-                          </div>
-                          <p class="small text-muted">Back-End Development <span class="badge badge-light">1h ago</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="pb-3 timeline-item item-danger">
-                        <div class="pl-5">
-                          <div class="mb-3"><strong>@Lillith Joseph</strong><span class="text-muted small mx-2">has upload new files to</span><strong>Tiny Admin</strong></div>
-                          <div class="row mb-3">
-                            <div class="col"><img src="./assets/products/p4.jpg" alt="..." class="img-fluid rounded"></div>
-                            <div class="col"><img src="./assets/products/p1.jpg" alt="..." class="img-fluid rounded"></div>
-                            <div class="col"><img src="./assets/products/p2.jpg" alt="..." class="img-fluid rounded"></div>
-                          </div>
-                          <p class="small text-muted">Front-End Development <span class="badge badge-light">1h ago</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div> <!-- / .card-body -->
-                  </div> <!-- / .card -->
-                </div> <!-- / .col-md-6 -->
-                <!-- Striped rows -->
-                <div class="col-md-12 col-lg-8">
-                  <div class="card shadow">
-                    <div class="card-header">
-                      <strong class="card-title">Recent Data</strong>
-                      <a class="float-right small text-muted" href="#!">View all</a>
                     </div>
-                    <div class="card-body my-n2">
-                      <table class="table table-striped table-hover table-borderless">
+                    <div class="card mb-0">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+                          <h5 class="m-0 me-2">Withdraw</h5>
+                          <a class="fw-medium" href="javascript:void(0);">View all</a>
+                        </div>
+                        <div class="withdraw-content pt-2">
+                          <ul class="p-0 m-0">
+                            <li class="d-flex mb-4 align-items-center pb-2">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/brands/google.png"
+                                  class="img-fluid"
+                                  alt="google"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">Google Adsense</h6>
+                                  <p class="mb-0">Paypal deposit</p>
+                                </div>
+                                <h6 class="text-danger mb-0">-$145</h6>
+                              </div>
+                            </li>
+                            <li class="d-flex mb-4 align-items-center pb-2">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/brands/github.png"
+                                  class="img-fluid"
+                                  alt="github"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">Github Enterprise</h6>
+                                  <p class="mb-0">Security &amp; compliance</p>
+                                </div>
+                                <h6 class="text-danger mb-0">-$1870</h6>
+                              </div>
+                            </li>
+                            <li class="d-flex mb-4 align-items-center pb-2">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/brands/slack.png"
+                                  class="img-fluid"
+                                  alt="slack"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">Upgrade Slack Plan</h6>
+                                  <p class="mb-0">Debit card deposit</p>
+                                </div>
+                                <h6 class="text-danger mb-0">$450</h6>
+                              </div>
+                            </li>
+                            <li class="d-flex mb-4 align-items-center pb-2">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/payments/digital-ocean.png"
+                                  class="img-fluid"
+                                  alt="digital"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">Digital Ocean</h6>
+                                  <p class="mb-0">Cloud Hosting</p>
+                                </div>
+                                <h6 class="text-danger mb-0">-$540</h6>
+                              </div>
+                            </li>
+                            <li class="d-flex align-items-center">
+                              <div class="flex-shrink-0 me-4">
+                                <img
+                                  src="../assets/img/icons/brands/aws.png"
+                                  class="img-fluid"
+                                  alt="aws"
+                                  height="30"
+                                  width="30" />
+                              </div>
+                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                <div class="me-2">
+                                  <h6 class="mb-0">AWS Account</h6>
+                                  <p class="mb-0">Choosing a Cloud Platform</p>
+                                </div>
+                                <h6 class="text-danger mb-0">-$21</h6>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Deposit / Withdraw -->
+
+                <!-- Data Tables -->
+                <div class="col-12">
+                  <div class="card overflow-hidden">
+                    <div class="table-responsive">
+                      <table class="table table-sm">
                         <thead>
                           <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Date</th>
-                            <th>Action</th>
+                            <th class="text-truncate">User</th>
+                            <th class="text-truncate">Email</th>
+                            <th class="text-truncate">Role</th>
+                            <th class="text-truncate">Status</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td>2474</td>
-                            <th scope="col">Brown, Asher D.</th>
-                            <td>Ap #331-7123 Lobortis Avenue</td>
-                            <td>13/09/2020</td>
                             <td>
-                              <div class="dropdown">
-                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr1">
-                                  <a class="dropdown-item" href="#">Edit</a>
-                                  <a class="dropdown-item" href="#">Remove</a>
-                                  <a class="dropdown-item" href="#">Assign</a>
+                              <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-4">
+                                  <img src="../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-truncate">Jordan Stevenson</h6>
+                                  <small class="text-truncate">@amiccoo</small>
                                 </div>
                               </div>
                             </td>
+                            <td class="text-truncate">susanna.Lind57@gmail.com</td>
+                            <td class="text-truncate">
+                              <div class="d-flex align-items-center">
+                                <i class="icon-base ri ri-vip-crown-line icon-22px text-primary me-2"></i>
+                                <span>Admin</span>
+                              </div>
+                            </td>
+                            <td><span class="badge bg-label-warning rounded-pill">Pending</span></td>
                           </tr>
                           <tr>
-                            <td>2786</td>
-                            <th scope="col">Leblanc, Yoshio V.</th>
-                            <td>287-8300 Nisl. St.</td>
-                            <td>04/05/2019</td>
                             <td>
-                              <div class="dropdown">
-                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr2">
-                                  <a class="dropdown-item" href="#">Edit</a>
-                                  <a class="dropdown-item" href="#">Remove</a>
-                                  <a class="dropdown-item" href="#">Assign</a>
+                              <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-4">
+                                  <img src="../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-truncate">Benedetto Rossiter</h6>
+                                  <small class="text-truncate">@brossiter15</small>
                                 </div>
                               </div>
                             </td>
+                            <td class="text-truncate">estelle.Bailey10@gmail.com</td>
+                            <td class="text-truncate">
+                              <div class="d-flex align-items-center">
+                                <i class="icon-base ri ri-edit-box-line text-warning icon-22px me-2"></i>
+                                <span>Editor</span>
+                              </div>
+                            </td>
+                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
                           </tr>
                           <tr>
-                            <td>2747</td>
-                            <th scope="col">Hester, Nissim L.</th>
-                            <td>4577 Cras St.</td>
-                            <td>04/06/2019</td>
                             <td>
-                              <div class="dropdown">
-                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                  <a class="dropdown-item" href="#">Edit</a>
-                                  <a class="dropdown-item" href="#">Remove</a>
-                                  <a class="dropdown-item" href="#">Assign</a>
+                              <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-4">
+                                  <img src="../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-truncate">Bentlee Emblin</h6>
+                                  <small class="text-truncate">@bemblinf</small>
                                 </div>
                               </div>
                             </td>
+                            <td class="text-truncate">milo86@hotmail.com</td>
+                            <td class="text-truncate">
+                              <div class="d-flex align-items-center">
+                                <i class="icon-base ri ri-computer-line text-danger icon-22px me-2"></i>
+                                <span>Author</span>
+                              </div>
+                            </td>
+                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
                           </tr>
                           <tr>
-                            <td>2639</td>
-                            <th scope="col">Gardner, Leigh S.</th>
-                            <td>P.O. Box 228, 7512 Lectus Ave</td>
-                            <td>04/08/2019</td>
                             <td>
-                              <div class="dropdown">
-                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr4">
-                                  <a class="dropdown-item" href="#">Edit</a>
-                                  <a class="dropdown-item" href="#">Remove</a>
-                                  <a class="dropdown-item" href="#">Assign</a>
+                              <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-4">
+                                  <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-truncate">Bertha Biner</h6>
+                                  <small class="text-truncate">@bbinerh</small>
                                 </div>
                               </div>
                             </td>
+                            <td class="text-truncate">lonnie35@hotmail.com</td>
+                            <td class="text-truncate">
+                              <div class="d-flex align-items-center">
+                                <i class="icon-base ri ri-edit-box-line text-warning icon-22px me-2"></i>
+                                <span>Editor</span>
+                              </div>
+                            </td>
+                            <td><span class="badge bg-label-warning rounded-pill">Pending</span></td>
                           </tr>
                           <tr>
-                            <td>2238</td>
-                            <th scope="col">Higgins, Uriah L.</th>
-                            <td>Ap #377-5357 Sed Road</td>
-                            <td>04/01/2019</td>
                             <td>
-                              <div class="dropdown">
-                                <button class="btn btn-sm dropdown-toggle more-vertical" type="button" id="dr5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <span class="text-muted sr-only">Action</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dr5">
-                                  <a class="dropdown-item" href="#">Edit</a>
-                                  <a class="dropdown-item" href="#">Remove</a>
-                                  <a class="dropdown-item" href="#">Assign</a>
+                              <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-4">
+                                  <img src="../assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-truncate">Beverlie Krabbe</h6>
+                                  <small class="text-truncate">@bkrabbe1d</small>
                                 </div>
                               </div>
                             </td>
+                            <td class="text-truncate">ahmad_Collins@yahoo.com</td>
+                            <td class="text-truncate">
+                              <div class="d-flex align-items-center">
+                                <i class="icon-base ri ri-pie-chart-2-line icon-22px text-info me-2"></i>
+                                <span>Maintainer</span>
+                              </div>
+                            </td>
+                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-4">
+                                  <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-truncate">Bradan Rosebotham</h6>
+                                  <small class="text-truncate">@brosebothamz</small>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="text-truncate">tillman.Gleason68@hotmail.com</td>
+                            <td class="text-truncate">
+                              <div class="d-flex align-items-center">
+                                <i class="icon-base ri ri-edit-box-line text-warning icon-22px me-2"></i>
+                                <span>Editor</span>
+                              </div>
+                            </td>
+                            <td><span class="badge bg-label-warning rounded-pill">Pending</span></td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-4">
+                                  <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-truncate">Bree Kilday</h6>
+                                  <small class="text-truncate">@bkildayr</small>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="text-truncate">otho21@gmail.com</td>
+                            <td class="text-truncate">
+                              <div class="d-flex align-items-center">
+                                <i class="icon-base ri ri-user-3-line icon-22px text-success me-2"></i>
+                                <span>Subscriber</span>
+                              </div>
+                            </td>
+                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
+                          </tr>
+                          <tr class="border-transparent">
+                            <td>
+                              <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-4">
+                                  <img src="../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-truncate">Breena Gallemore</h6>
+                                  <small class="text-truncate">@bgallemore6</small>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="text-truncate">florencio.Little@hotmail.com</td>
+                            <td class="text-truncate">
+                              <div class="d-flex align-items-center">
+                                <i class="icon-base ri ri-user-3-line icon-22px text-success me-2"></i>
+                                <span>Subscriber</span>
+                              </div>
+                            </td>
+                            <td><span class="badge bg-label-secondary rounded-pill">Inactive</span></td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
-                </div> <!-- Striped rows -->
-              </div> <!-- .row-->
-            </div> <!-- .col-12 -->
-          </div> <!-- .row -->
-        </div> <!-- .container-fluid -->
-        <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="list-group list-group-flush my-n3">
-                  <div class="list-group-item bg-transparent">
-                    <div class="row align-items-center">
-                      <div class="col-auto">
-                        <span class="fe fe-box fe-24"></span>
-                      </div>
-                      <div class="col">
-                        <small><strong>Package has uploaded successfull</strong></small>
-                        <div class="my-0 text-muted small">Package is zipped and uploaded</div>
-                        <small class="badge badge-pill badge-light text-muted">1m ago</small>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="list-group-item bg-transparent">
-                    <div class="row align-items-center">
-                      <div class="col-auto">
-                        <span class="fe fe-download fe-24"></span>
-                      </div>
-                      <div class="col">
-                        <small><strong>Widgets are updated successfull</strong></small>
-                        <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
-                        <small class="badge badge-pill badge-light text-muted">2m ago</small>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="list-group-item bg-transparent">
-                    <div class="row align-items-center">
-                      <div class="col-auto">
-                        <span class="fe fe-inbox fe-24"></span>
-                      </div>
-                      <div class="col">
-                        <small><strong>Notifications have been sent</strong></small>
-                        <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
-                        <small class="badge badge-pill badge-light text-muted">30m ago</small>
-                      </div>
-                    </div> <!-- / .row -->
-                  </div>
-                  <div class="list-group-item bg-transparent">
-                    <div class="row align-items-center">
-                      <div class="col-auto">
-                        <span class="fe fe-link fe-24"></span>
-                      </div>
-                      <div class="col">
-                        <small><strong>Link was attached to menu</strong></small>
-                        <div class="my-0 text-muted small">New layout has been attached to the menu</div>
-                        <small class="badge badge-pill badge-light text-muted">1h ago</small>
-                      </div>
-                    </div>
-                  </div> <!-- / .row -->
-                </div> <!-- / .list-group -->
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+                </div>
+                <!--/ Data Tables -->
               </div>
             </div>
-          </div>
-        </div>
-        <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body px-5">
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-success justify-content-center">
-                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Control area</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-activity fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Activity</p>
-                  </div>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Droplet</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Upload</p>
-                  </div>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Users</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>Settings</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         @endsection

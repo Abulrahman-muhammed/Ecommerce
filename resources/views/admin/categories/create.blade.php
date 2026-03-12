@@ -2,86 +2,408 @@
 
 @section('title', 'Create Category')
 
+@push('styles')
+<style>
+    :root {
+        --accent:       #7367f0;
+        --accent-soft:  rgba(115, 103, 240, 0.12);
+        --accent-hover: #6254e8;
+        --danger:       #ea5455;
+        --text-primary: #4b465c;
+        --text-muted:   #a5a3ae;
+        --border:       #dbdade;
+        --bg-body:      #f8f7fa;
+        --card-bg:      #ffffff;
+        --radius:       0.5rem;
+        --shadow:       0 0.25rem 1.125rem rgba(161, 172, 184, 0.42);
+    }
+
+    /* ── Page header ── */
+    .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+    }
+    .page-header h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0;
+    }
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 0.4rem 0.9rem;
+        text-decoration: none;
+        transition: border-color 0.18s, color 0.18s, box-shadow 0.18s;
+    }
+    .btn-back:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        box-shadow: 0 2px 8px var(--accent-soft);
+    }
+
+    /* ── Card ── */
+    .form-card {
+        background: var(--card-bg);
+        border: none;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+    }
+    .form-card .card-header {
+        background: var(--bg-body);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+    .form-card .card-header .header-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 0.375rem;
+        background: var(--accent-soft);
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+    }
+    .form-card .card-header span {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+    .form-card .card-body {
+        padding: 1.5rem;
+    }
+
+    /* ── Field wrapper ── */
+    .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    /* ── Label ── */
+    .f-label {
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin: 0;
+    }
+    .f-label .required {
+        color: var(--danger);
+        margin-left: 2px;
+    }
+
+    /* ── Input / Select / Textarea ── */
+    .f-control {
+        width: 100%;
+        padding: 0.5rem 0.875rem;
+        font-size: 0.875rem;
+        color: var(--text-primary);
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        transition: border-color 0.18s, box-shadow 0.18s;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+    .f-control::placeholder { color: var(--text-muted); }
+    .f-control:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 0.2rem var(--accent-soft);
+    }
+    .f-control.is-invalid {
+        border-color: var(--danger);
+    }
+    .f-control.is-invalid:focus {
+        box-shadow: 0 0 0 0.2rem rgba(234, 84, 85, 0.12);
+    }
+
+    /* Custom select arrow */
+    select.f-control {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23a5a3ae' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.875rem center;
+        padding-right: 2.25rem;
+        cursor: pointer;
+    }
+
+    /* ── File input ── */
+    .file-wrapper {
+        position: relative;
+    }
+    .file-wrapper input[type="file"] {
+        width: 100%;
+        padding: 0.45rem 0.875rem;
+        font-size: 0.875rem;
+        color: var(--text-primary);
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .file-wrapper input[type="file"]:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 0.2rem var(--accent-soft);
+    }
+    .file-wrapper input[type="file"]::file-selector-button {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border: none;
+        border-radius: calc(var(--radius) - 2px);
+        padding: 0.25rem 0.75rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        cursor: pointer;
+        margin-right: 0.6rem;
+        transition: background 0.18s;
+    }
+    .file-wrapper input[type="file"]::file-selector-button:hover {
+        background: rgba(115, 103, 240, 0.2);
+    }
+
+    /* ── Status radio ── */
+    .status-radio-group {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        padding-top: 0.25rem;
+    }
+    .status-radio-group .radio-pill {
+        position: relative;
+    }
+    .status-radio-group .radio-pill input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .status-radio-group .radio-pill label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.375rem 0.875rem;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        border-radius: 2rem;
+        cursor: pointer;
+        user-select: none;
+        transition: border-color 0.18s, color 0.18s, background 0.18s, box-shadow 0.18s;
+    }
+    .status-radio-group .radio-pill label::before {
+        content: '';
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--text-muted);
+        transition: background 0.18s;
+    }
+    .status-radio-group .radio-pill input:checked + label {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-soft);
+        box-shadow: 0 2px 6px var(--accent-soft);
+    }
+    .status-radio-group .radio-pill input:checked + label::before {
+        background: var(--accent);
+    }
+
+    /* ── Helper / Error text ── */
+    .f-hint {
+        font-size: 0.76rem;
+        color: var(--text-muted);
+        margin: 0;
+    }
+    .f-error {
+        font-size: 0.76rem;
+        color: var(--danger);
+        margin: 0;
+    }
+
+    /* ── Divider ── */
+    .form-divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 1.5rem 0 1.25rem;
+    }
+
+    /* ── Submit button ── */
+    .btn-submit {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.5rem 1.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #fff;
+        background: var(--accent);
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: background 0.18s, box-shadow 0.18s, transform 0.1s;
+        box-shadow: 0 4px 12px rgba(115, 103, 240, 0.35);
+    }
+    .btn-submit:hover {
+        background: var(--accent-hover);
+        box-shadow: 0 6px 16px rgba(115, 103, 240, 0.45);
+    }
+    .btn-submit:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 8px rgba(115, 103, 240, 0.3);
+    }
+
+    .btn-cancel {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.5rem 1.25rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        text-decoration: none;
+        transition: border-color 0.18s, color 0.18s;
+    }
+    .btn-cancel:hover {
+        border-color: var(--text-primary);
+        color: var(--text-primary);
+    }
+</style>
+@endpush
+
 @section('content')
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 text-black font-weight-bold">Create Category</h5>
-                    <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary btn-sm shadow-sm">
-                        <i class="fas fa-arrow-left"></i> Back
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    {{-- Page Header --}}
+    <div class="page-header">
+        <h4>Add New Category</h4>
+        <a href="{{ route('admin.categories.index') }}" class="btn-back">
+            <i class="ri ri-arrow-left-line"></i> Back to Categories
+        </a>
+    </div>
+
+    {{-- Form Card --}}
+    <div class="card form-card">
+
+        <div class="card-header">
+            <div class="header-icon"><i class="ri ri-folder-add-line"></i></div>
+            <span>Category Details</span>
+        </div>
+
+        <div class="card-body">
+            <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="row g-4">
+
+                    {{-- Name --}}
+                    <div class="col-md-6">
+                        <div class="field-group">
+                            <label class="f-label">
+                                Category Name <span class="required">*</span>
+                            </label>
+                            <input type="text" name="name"
+                                   class="f-control @error('name') is-invalid @enderror"
+                                   placeholder="e.g. Electronics"
+                                   value="{{ old('name') }}">
+                            @error('name')
+                                <p class="f-error">{{ $message }}</p>
+                            @else
+                                <p class="f-hint">Use a clear, descriptive name.</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    {{-- Parent Category --}}
+                    <div class="col-md-6">
+                        <div class="field-group">
+                            <label class="f-label">Parent Category</label>
+                            <select name="parent_id" class="f-control">
+                                <option value="">— None (Root Category) —</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('parent_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <p class="f-hint">Leave empty to create a top-level category.</p>
+                        </div>
+                    </div>
+
+                    {{-- Status --}}
+                    <div class="col-md-6">
+                        <div class="field-group">
+                            <label class="f-label">Status <span class="required">*</span></label>
+                            <div class="status-radio-group">
+                                @foreach(\App\Enums\CategoryStatusEnum::cases() as $status)
+                                    <div class="radio-pill">
+                                        <input type="radio" name="status"
+                                               id="s-{{ $status->value }}"
+                                               value="{{ $status->value }}"
+                                               {{ (old('status', $loop->first ? $status->value : '') == $status->value) ? 'checked' : '' }}>
+                                        <label for="s-{{ $status->value }}">{{ $status->label() }}</label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Image --}}
+                    <div class="col-md-6">
+                        <div class="field-group">
+                            <label class="f-label">Category Image</label>
+                            <div class="file-wrapper">
+                                <input type="file" name="image" accept="image/*">
+                            </div>
+                            <p class="f-hint">Accepted formats: JPG, PNG, WEBP. Max 2 MB.</p>
+                        </div>
+                    </div>
+
+                    {{-- Description --}}
+                    <div class="col-12">
+                        <div class="field-group">
+                            <label class="f-label">Description</label>
+                            <textarea name="description" class="f-control" rows="3"
+                                      placeholder="Optional: briefly describe this category…">{{ old('description') }}</textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr class="form-divider">
+
+                <div class="d-flex justify-content-end align-items-center gap-2">
+                    <a href="{{ route('admin.categories.index') }}" class="btn-cancel">
+                        Cancel
                     </a>
+                    <button type="submit" class="btn-submit">
+                        <i class="ri-save-line"></i> Create Category
+                    </button>
                 </div>
 
-                <div class="card-body">
-                    <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Category Name</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                        id="name" name="name" value="{{ old('name') }}" required>
-                                    @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="image" class="form-label">Image</label>
-                                    <input type="file" class="form-control @error('image') is-invalid @enderror" 
-                                        id="image" name="image">
-                                    @error('image') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="parent_id" class="form-label">Parent Category</label>
-                                    <select id="parent_id" name="parent_id" class="form-control select2 @error('parent_id') is-invalid @enderror">
-                                        <option value="">Select Parent Category</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('parent_id') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="status" class="form-label">Status</label>
-                                    <select class="form-control @error('status') is-invalid @enderror" 
-                                        id="status" name="status" required>
-                                        <option value="">Select Status</option>
-                                        @foreach (App\Enums\CategoryStatusEnum::cases() as $status)
-                                            <option value="{{ $status->value }}">{{ $status->label() }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('status') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control @error('description') is-invalid @enderror" 
-                                        id="description" name="description" rows="3">{{ old('description') }}</textarea>
-                                    @error('description') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Create Category</button>
-                    </form>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+
 </div>
 @endsection

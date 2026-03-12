@@ -12,6 +12,7 @@ use App\Services\ImageUploadService;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Support\Facades\DB;
+use App\Models\Image;
 class CategoryController extends Controller
 {
     // inject image upload service
@@ -23,9 +24,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('parent','images')->latest()->paginate(10);
+        $categories = Category::with('parent','images')
+        ->withoutTrashed()
+        ->filter(request()->only(['search' , 'status']))
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
         return view('admin.categories.index', compact('categories'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -120,20 +127,40 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         // use transaction
-        DB::beginTransaction();
-        try {
         $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully');
+    }
+
+    // show trashed categories
+    public function trashed()
+    {
+        $categories = Category::with('parent','images')
+        ->onlyTrashed()
+        ->filter(request()->only(['search' , 'status']))
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
+        return view('admin.categories.trashed', compact('categories'));
+    }
+    // restore deleted category
+    public function restore($id)
+    {
+        $category = Category::withTrashed()->findOrFail($id);
+        $category->restore();
+        return redirect()->route('admin.categories.index')->with('success', 'Category restored successfully');
+    }
+
+    // force delete category
+    public function forceDelete($id)
+    {
+        $category = Category::withTrashed()->findOrFail($id);
         // delete image if exists
         if ($category->images->first()) {
             $this->imageUploadService->delete($category->images->first()->path);
             $category->images()->delete();
         }
-        $category->delete();
-        DB::commit();
-        return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully');
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return redirect()->back()->with('error', 'Category deletion failed');
-    }
+        $category->forceDelete();
+        return redirect()->route('admin.categories.index')->with('success', 'Category deleted permanently');
     }
 }
