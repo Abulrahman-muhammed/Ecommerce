@@ -1,60 +1,60 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateProfileRequest;
+use App\Services\ImageUploadService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    public function __construct(protected ImageUploadService $imageService) {}
+
+    public function edit(): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $admin = Auth::guard('admin')->user();
+
+        return view('admin.profile.edit', compact('admin'));
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(UpdateProfileRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $admin = Auth::guard('admin')->user();
+        $data  = $request->validated();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // ── Image ──────────────────────────────────
+        if ($request->boolean('remove_image')) {
+            $this->deleteImage($admin);
+            $data['image'] = null;
         }
 
-        $request->user()->save();
+        if ($request->hasFile('image')) {
+            $this->deleteImage($admin);
+            $data['image'] = $this->imageService->upload(
+                $request->file('image'),
+                'admins'
+            );
+        }
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        unset($data['remove_image']);
+
+        $admin->update($data);
+
+        return redirect()
+            ->route('admin.profile.edit')
+            ->with('success', 'Profile updated successfully.');
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    private function deleteImage($admin): void
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        if (! $admin->image) {
+            return;
+        }
 
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        $this->imageService->delete($admin->image);
+        $admin->image = null;
     }
 }

@@ -127,6 +127,7 @@ class ProductController extends Controller
         }
 
         $product->images()->delete();
+        $product->tags()->detach();
         $product->forceDelete();
 
         return redirect()->route('admin.products.trashed')->with('success', 'Product permanently deleted.');

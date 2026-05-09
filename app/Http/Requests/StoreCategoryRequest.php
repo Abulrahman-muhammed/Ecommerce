@@ -29,6 +29,7 @@ class StoreCategoryRequest extends FormRequest
         'slug' => 'nullable|string|max:255|unique:categories,slug',
         'parent_id' => 'nullable|exists:categories,id|not_in:'.$this->route('category'),
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'is_featured' => 'nullable|boolean',
         ];
     }
 

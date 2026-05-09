@@ -8,80 +8,54 @@ use App\Services\ImageUploadService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Symfony\Component\Intl\Countries;
 
 class ProfileController extends Controller
 {
     public function __construct(protected ImageUploadService $imageService) {}
 
-    // ──────────────────────────────────────────────
-    //  Show
-    // ──────────────────────────────────────────────
+
 
     public function edit(): View
     {
-        $user    = Auth::user()->load('profile.avatarImage');
-        $profile = $user->profile;
-        $countries = Countries::getNames();
-        return view('admin.profile.edit', compact('user', 'profile', 'countries'));
-    }
+        $admin = Auth::guard('admin')->user();
 
-    // ──────────────────────────────────────────────
-    //  Update
-    // ──────────────────────────────────────────────
+        return view('admin.profile.edit', compact('admin'));
+    }
 
     public function update(UpdateProfileRequest $request): RedirectResponse
     {
-        $profile = Auth::user()->load('profile.avatarImage')->profile;
-        $data    = $request->validated();
+        $admin = Auth::guard('admin')->user();
+        $data  = $request->validated();
 
-        // ── Avatar ─────────────────────────────────
-        if ($request->boolean('remove_avatar')) {
-            $this->deleteAvatar($profile);
+        if ($request->boolean('remove_image')) {
+            $this->deleteImage($admin);
+            $data['image'] = null;
         }
 
-        if ($request->hasFile('avatar')) {
-            $this->deleteAvatar($profile);
-
-            $path = $this->imageService->upload(
-                $request->file('avatar'),
-                'avatars'
+        if ($request->hasFile('image')) {
+            $this->deleteImage($admin);
+            $data['image'] = $this->imageService->upload(
+                $request->file('image'),
+                'admins'
             );
-
-            $profile->avatarImage()->updateOrCreate(
-                ['usage' => 'avatar'],
-                ['path'  => $path]
-            );
-
-            $profile->unsetRelation('avatarImage');
         }
 
-        unset($data['avatar'], $data['remove_avatar']);
+        unset($data['remove_image']);
 
-        $profile->update($data);
+        $admin->update($data);
 
         return redirect()
             ->route('admin.profile.edit')
             ->with('success', 'Profile updated successfully.');
     }
 
-    // ──────────────────────────────────────────────
-    //  Helpers
-    // ──────────────────────────────────────────────
-
-    private function deleteAvatar($profile): void
+    private function deleteImage($admin): void
     {
-        $image = $profile->relationLoaded('avatarImage')
-            ? $profile->avatarImage
-            : $profile->avatarImage()->first();
-
-        if (! $image) {
+        if (! $admin->image) {
             return;
         }
 
-        $this->imageService->delete($image->path);
-        $image->delete();
-
-        $profile->unsetRelation('avatarImage');
+        $this->imageService->delete($admin->image);
+        $admin->image = null;
     }
 }

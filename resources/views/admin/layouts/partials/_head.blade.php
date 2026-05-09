@@ -46,4 +46,10 @@
     <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
 
     <script src="{{ asset('admin-assets/assets/js/config.js') }} "></script>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @auth('admin')
+        <meta name="user-id" content="{{ auth('admin')->id() }}">
+    @endauth
+
   </head>

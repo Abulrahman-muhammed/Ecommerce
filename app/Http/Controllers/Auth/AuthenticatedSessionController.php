@@ -8,7 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-
+use App\Repositories\cart\CartRepositoryInterface;
+use App\Enums\UserRoleEnum;
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -16,19 +17,22 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('front.auth.login');
     }
 
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request , CartRepositoryInterface $cartRepo): RedirectResponse
     {
         $request->authenticate();
 
         $request->session()->regenerate();
+        if(Auth::user()->role == UserRoleEnum::USER){
+            $cartRepo->mergeCartAfterLogin();
+        }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('home', absolute: false));
     }
 
     /**

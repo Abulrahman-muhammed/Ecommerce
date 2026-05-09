@@ -21,6 +21,8 @@
         --trash-text: #3d3a5c;
         --trash-muted: #9e9bb8;
         --trash-tag: #ececf5;
+        --trash-featured: rgba(255, 159, 67, 0.12);
+        --trash-featured-text: #ff9f43;
     }
 
     /* ─── Page wrapper ─── */
@@ -41,9 +43,6 @@
         gap: 1.25rem;
         margin-bottom: 2rem;
     }
-
-    .trash-header-left {}
-
     .trash-eyebrow {
         display: inline-flex;
         align-items: center;
@@ -60,7 +59,6 @@
         padding: 4px 12px;
         margin-bottom: 0.65rem;
     }
-
     .trash-title {
         font-family: 'Syne', sans-serif;
         font-size: 1.85rem;
@@ -69,13 +67,11 @@
         margin: 0 0 0.25rem;
         line-height: 1.2;
     }
-
     .trash-subtitle {
         font-size: 0.875rem;
         color: var(--trash-muted);
         margin: 0;
     }
-
     .btn-back {
         display: inline-flex;
         align-items: center;
@@ -109,7 +105,6 @@
         padding: 1.25rem 1.5rem;
         margin-bottom: 1.5rem;
     }
-
     .filter-label {
         font-family: 'Syne', sans-serif;
         font-size: 0.65rem;
@@ -120,7 +115,6 @@
         display: block;
         margin-bottom: 0.4rem;
     }
-
     .filter-input-wrap {
         position: relative;
         display: flex;
@@ -147,7 +141,6 @@
     }
     .filter-input::placeholder { color: var(--trash-muted); }
     .filter-input:focus { border-color: var(--trash-accent); }
-
     .filter-select {
         width: 100%;
         background: var(--trash-surface-2);
@@ -164,7 +157,6 @@
     }
     .filter-select:focus { border-color: var(--trash-accent); }
     .filter-select option { background: var(--trash-surface-2); }
-
     .btn-filter {
         display: inline-flex;
         align-items: center;
@@ -183,7 +175,6 @@
         flex: 1;
     }
     .btn-filter:hover { opacity: 0.88; }
-
     .btn-reset {
         display: inline-flex;
         align-items: center;
@@ -205,17 +196,12 @@
         border-radius: 16px;
         overflow: hidden;
     }
-
     .trash-table {
         width: 100%;
         border-collapse: collapse;
         font-size: 0.875rem;
     }
-
-    .trash-table thead tr {
-        border-bottom: 1px solid var(--trash-border);
-    }
-
+    .trash-table thead tr { border-bottom: 1px solid var(--trash-border); }
     .trash-table th {
         font-family: 'Syne', sans-serif;
         font-size: 0.65rem;
@@ -227,17 +213,14 @@
         background: transparent;
         white-space: nowrap;
     }
-
     .trash-table th.center,
     .trash-table td.center { text-align: center; }
-
     .trash-table tbody tr {
         border-bottom: 1px solid var(--trash-border);
         transition: background 0.18s;
     }
     .trash-table tbody tr:last-child { border-bottom: none; }
     .trash-table tbody tr:hover { background: var(--trash-surface-2); }
-
     .trash-table td {
         padding: 14px 20px;
         color: var(--trash-text);
@@ -254,16 +237,14 @@
 
     /* ─── Category info ─── */
     .cat-avatar {
-        width: 40px;
-        height: 40px;
+        width: 40px; height: 40px;
         border-radius: 10px;
         object-fit: cover;
         border: 1px solid var(--trash-border);
         flex-shrink: 0;
     }
     .cat-avatar-placeholder {
-        width: 40px;
-        height: 40px;
+        width: 40px; height: 40px;
         border-radius: 10px;
         background: var(--trash-tag);
         border: 1px solid var(--trash-border);
@@ -301,7 +282,6 @@
         padding: 3px 10px;
     }
     .badge-parent i { font-size: 0.7rem; }
-
     .badge-status {
         display: inline-block;
         font-family: 'Syne', sans-serif;
@@ -328,6 +308,29 @@
         border: 1px solid rgba(255,77,109,0.2);
     }
 
+    /* ─── Featured badge ─── */
+    .featured-yes {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-family: 'Syne', sans-serif;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: var(--trash-featured);
+        color: var(--trash-featured-text);
+        border: 1px solid rgba(255,159,67,0.25);
+        border-radius: 50px;
+        padding: 4px 12px;
+    }
+    .featured-yes i { font-size: 0.7rem; }
+    .featured-no {
+        color: var(--trash-muted);
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
     /* ─── Deleted at ─── */
     .deleted-date { font-size: 0.83rem; color: var(--trash-text); }
     .deleted-ago  { font-size: 0.75rem; color: var(--trash-danger); margin-top: 2px; }
@@ -337,8 +340,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 34px;
-        height: 34px;
+        width: 34px; height: 34px;
         border-radius: 9px;
         border: 1px solid var(--trash-border);
         background: transparent;
@@ -347,17 +349,13 @@
         font-size: 1.05rem;
         text-decoration: none;
     }
-    .action-btn.restore {
-        color: var(--trash-success);
-    }
+    .action-btn.restore { color: var(--trash-success); }
     .action-btn.restore:hover {
         background: var(--trash-success-soft);
         border-color: rgba(59,232,176,0.3);
         transform: scale(1.08);
     }
-    .action-btn.delete {
-        color: var(--trash-danger);
-    }
+    .action-btn.delete { color: var(--trash-danger); }
     .action-btn.delete:hover {
         background: var(--trash-danger-soft);
         border-color: rgba(255,77,109,0.3);
@@ -365,13 +363,9 @@
     }
 
     /* ─── Empty state ─── */
-    .empty-state {
-        padding: 4rem 2rem;
-        text-align: center;
-    }
+    .empty-state { padding: 4rem 2rem; text-align: center; }
     .empty-icon-wrap {
-        width: 72px;
-        height: 72px;
+        width: 72px; height: 72px;
         border-radius: 20px;
         background: var(--trash-surface-2);
         border: 1px solid var(--trash-border);
@@ -448,13 +442,7 @@
     .trash-table tbody tr:nth-child(8)  { animation-delay: 0.28s; }
     .trash-table tbody tr:nth-child(9)  { animation-delay: 0.32s; }
     .trash-table tbody tr:nth-child(10) { animation-delay: 0.36s; }
-    .trash-table tbody tr:nth-child(11) { animation-delay: 0.40s; }
-    .trash-table tbody tr:nth-child(12) { animation-delay: 0.44s; }
-    .trash-table tbody tr:nth-child(13) { animation-delay: 0.48s; }
-    .trash-table tbody tr:nth-child(14) { animation-delay: 0.52s; }
-    .trash-table tbody tr:nth-child(15) { animation-delay: 0.56s; }
 
-    /* ─── Responsive ─── */
     @media (max-width: 767px) {
         .trash-page { padding: 1.25rem 1rem 2rem; }
         .trash-title { font-size: 1.4rem; }
@@ -484,7 +472,7 @@
     <div class="filter-card">
         <form action="{{ route('admin.categories.trashed') }}" method="GET">
             <div class="row g-3 align-items-end">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label class="filter-label">Search</label>
                     <div class="filter-input-wrap">
                         <i class="ri ri-search-line"></i>
@@ -502,7 +490,15 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-4 d-flex gap-2">
+                <div class="col-md-2">
+                    <label class="filter-label">Featured</label>
+                    <select name="is_featured" class="filter-select">
+                        <option value="">All</option>
+                        <option value="1" {{ request('is_featured') === '1' ? 'selected' : '' }}>Featured</option>
+                        <option value="0" {{ request('is_featured') === '0' ? 'selected' : '' }}>Not Featured</option>
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex gap-2">
                     <button type="submit" class="btn-filter">
                         <i class="ri ri-filter-3-line"></i> Apply Filter
                     </button>
@@ -524,6 +520,7 @@
                         <th>Category</th>
                         <th>Parent</th>
                         <th class="center">Status</th>
+                        <th class="center">Featured</th>
                         <th>Deleted</th>
                         <th class="center" style="width:100px">Actions</th>
                     </tr>
@@ -573,6 +570,17 @@
                             </span>
                         </td>
 
+                        {{-- Featured --}}
+                        <td class="center">
+                            @if($category->is_featured)
+                                <span class="featured-yes">
+                                    <i class="ri ri-star-fill"></i> Yes
+                                </span>
+                            @else
+                                <span class="featured-no">—</span>
+                            @endif
+                        </td>
+
                         {{-- Deleted At --}}
                         <td>
                             <div class="deleted-date">{{ $category->deleted_at->format('Y-m-d') }}</div>
@@ -602,7 +610,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="empty-state">
                                 <div class="empty-icon-wrap">
                                     <i class="ri ri-delete-bin-line"></i>

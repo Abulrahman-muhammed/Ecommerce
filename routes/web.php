@@ -1,63 +1,60 @@
 <?php
 
-use App\Http\Controllers\Admin\{DashboardController, CategoryController , ProductController ,ProfileController};
-// use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Front\CheckoutController;
+use App\Http\Controllers\Front\ProductController as FrontProductController;
+use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\OrderController as FrontOrderController;
+use App\Http\Controllers\Front\PaymentController;
+use App\Http\Controllers\Auth\SocialiteController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\TagController;
-Route::get('/', function () {
-    return view('welcome');
+
+
+/*
+|--------------------------------------------------------------------------
+| Home
+|--------------------------------------------------------------------------
+*/
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+
+/*
+|--------------------------------------------------------------------------
+| Front Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('front')->name('front.')->group(function () {
+
+    // Products
+    Route::get('products',              [FrontProductController::class, 'index'])->name('products.index');
+    Route::get('products/{product:slug}', [FrontProductController::class, 'show']) ->name('products.show');
+
+    // Cart
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::get('/',                  [CartController::class, 'index'])  ->name('index');
+        Route::post('/add/{product}',    [CartController::class, 'store'])  ->name('store');
+        Route::post('/update/{product}', [CartController::class, 'update']) ->name('update');
+        Route::delete('/remove/{product}',[CartController::class, 'destroy'])->name('destroy');
+        Route::delete('/clear',          [CartController::class, 'clear'])  ->name('clear');
+    });
+
+    // Payment callbacks (Stripe)
+    Route::prefix('orders/{order}/payment')->name('orders.payment.')->group(function () {
+        Route::get('success', [PaymentController::class, 'success'])->name('success');
+        Route::get('cancel',  [PaymentController::class, 'cancel']) ->name('cancel');
+    });
+
+    // Checkout & Orders
+    Route::get('checkout',      [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('checkout',     [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('orders/{order}',[FrontOrderController::class, 'show'])->name('orders.show');
+
+    // Social Login (Socialite)
+    Route::prefix('socialite')->name('socialite.')->controller(SocialiteController::class)->group(function () {
+        Route::get('/{provider}/login',    'redirect')->name('login');
+        Route::get('/{provider}/redirect', 'callback')->name('redirect');
+    });
 });
 
-Route::get('admin/dashboard',[DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::group([
-    'prefix' => 'admin',
-    'as' => 'admin.',
-    'middleware' => ['auth', 'verified']
-], function () {
-
-    Route::resource('categories', CategoryController::class)->except(['show']);
-
-    Route::prefix('categories')->name('categories.')->group(function () {
-        Route::get('trashed', [CategoryController::class, 'trashed'])->name('trashed');
-        Route::patch('{id}/restore', [CategoryController::class, 'restore'])->name('restore');
-        Route::delete('{id}/force-delete', [CategoryController::class, 'forceDelete'])->name('force-delete');
-    });
-
-
-    Route::prefix('products')->name('products.')->group(function () {
-        Route::get('trashed', [ProductController::class, 'trashed'])->name('trashed');
-        Route::patch('{id}/restore', [ProductController::class, 'restore'])->name('restore');
-        Route::delete('{id}/force-delete', [ProductController::class, 'forceDelete'])->name('force-delete');
-    });
-    Route::resource('products', ProductController::class);
-
-    Route::resource('tags', TagController::class)->except(['show']);
-    Route::prefix('tags')->name('tags.')->group(function () {
-        Route::get('trashed', [TagController::class, 'trashed'])->name('trashed');
-        Route::patch('{id}/restore', [TagController::class, 'restore'])->name('restore');
-        Route::delete('{id}/force-delete', [TagController::class, 'forceDelete'])->name('forceDelete');
-        Route::delete('empty-trash',       [TagController::class, 'emptyTrash'])  ->name('emptyTrash');
-
-    });
-    Route::resource('orders', OrderController::class);
-
-    Route::prefix('orders')->name('orders.')->group(function () {
-        Route::get('trashed', [OrderController::class, 'trashed'])->name('trashed');
-        Route::patch('{id}/restore', [OrderController::class, 'restore'])->name('restore');
-        Route::delete('{id}/force-delete', [OrderController::class, 'forceDelete'])->name('force-delete');
-    });
-    Route::get('profile',  [ProfileController::class, 'edit'])  ->name('profile.edit');
-    Route::put('profile',  [ProfileController::class, 'update'])->name('profile.update');
-});
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
+require __DIR__ . '/auth.php';

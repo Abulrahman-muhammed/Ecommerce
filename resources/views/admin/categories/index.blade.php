@@ -411,6 +411,27 @@
 .s-archived  { background: rgba(234,84,85,.12); color: #ea5455; }
 .s-archived .dot { background: #ea5455; }
 
+/* ── Featured badge ── */
+.featured-yes {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    background: rgba(255, 159, 67, .12);
+    color: #ff9f43;
+    border-radius: .25rem;
+    padding: 3px 10px;
+}
+.featured-yes i { font-size: .75rem; }
+.featured-no {
+    color: #c4c4c4;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
 /* ── Date ── */
 .date-text {
     display: flex;
@@ -586,7 +607,7 @@ html.swal2-shown, body.swal2-shown {
         </div>
         <form action="{{ route('admin.categories.index') }}" method="GET">
             <div class="row g-3 align-items-end">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label class="form-label-sm">Search</label>
                     <div class="input-icon-wrap">
                         <i class="ri ri-search-line input-icon"></i>
@@ -609,7 +630,17 @@ html.swal2-shown, body.swal2-shown {
                         </select>
                     </div>
                 </div>
-                <div class="col-md-4 d-flex gap-2">
+                <div class="col-md-2">
+                    <label class="form-label-sm">Featured</label>
+                    <div class="select-wrap">
+                        <select name="is_featured" class="mat-select">
+                            <option value="">All</option>
+                            <option value="1" {{ request('is_featured') === '1' ? 'selected' : '' }}>Featured</option>
+                            <option value="0" {{ request('is_featured') === '0' ? 'selected' : '' }}>Not Featured</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex gap-2">
                     <button type="submit" class="btn-mat-primary">
                         <i class="ri ri-filter-3-line"></i> Apply Filter
                     </button>
@@ -639,6 +670,7 @@ html.swal2-shown, body.swal2-shown {
                         <th>Slug</th>
                         <th>Parent</th>
                         <th class="center">Status</th>
+                        <th class="center">Featured</th>
                         <th>Created</th>
                         <th class="center" style="width:90px">Actions</th>
                     </tr>
@@ -705,6 +737,17 @@ html.swal2-shown, body.swal2-shown {
                             </span>
                         </td>
 
+                        {{-- Featured --}}
+                        <td class="center">
+                            @if($category->is_featured)
+                                <span class="featured-yes">
+                                    <i class="ri ri-star-fill"></i> Yes
+                                </span>
+                            @else
+                                <span class="featured-no">—</span>
+                            @endif
+                        </td>
+
                         {{-- Created --}}
                         <td>
                             <span class="date-text">
@@ -732,7 +775,7 @@ html.swal2-shown, body.swal2-shown {
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <div class="empty-state">
                                 <div class="empty-icon">
                                     <i class="ri ri-inbox-unarchive-line"></i>

@@ -127,7 +127,6 @@
 .input-icon-wrap .mat-input { padding-left: 2.125rem; }
 .field-hint  { font-size: .75rem; color: #a8aaae; margin-top: .3rem; }
 .field-error { font-size: .75rem; color: #ea5455; margin-top: .3rem; }
-.bio-counter { float: right; font-weight: 400; }
 
 /* ── Avatar Upload Zone ──────────────────────────── */
 .avatar-zone {
@@ -156,14 +155,6 @@
 }
 .check-row input[type="checkbox"] {
     width: 15px; height: 15px; accent-color: #ea5455; cursor: pointer;
-}
-
-/* ── Readonly badge ──────────────────────────────── */
-.badge-readonly {
-    font-size: .65rem; background: rgba(75,70,92,.07);
-    border: 1px solid rgba(75,70,92,.1); border-radius: .25rem;
-    padding: 1px 6px; color: #a8aaae; margin-left: 4px;
-    font-weight: 400; vertical-align: middle;
 }
 
 /* ── Meta Rows ───────────────────────────────────── */
@@ -236,25 +227,20 @@
     {{-- ══ Hero ══ --}}
     <div class="hero-card anim anim-1">
         <div class="hero-avatar-wrap">
-            <img src="{{asset('storage/' . $profile->avatarImage?->path)}}"
-                 alt="{{ $profile->full_name }}"
+            <img src="{{ $admin->image ? asset('storage/' . $admin->image) : asset('assets/img/avatars/default.png') }}"
+                 alt="{{ $admin->name }}"
                  class="hero-avatar" id="heroAvatar">
             <span class="hero-avatar-status"></span>
         </div>
         <div>
-            <h5 class="hero-name">{{ $profile->full_name }}</h5>
-            <p class="hero-role">Administrator</p>
+            <h5 class="hero-name">{{ $admin->name }}</h5>
+            <p class="hero-role">@ {{ $admin->username }}</p>
             <div class="hero-chips">
                 <span class="hero-chip">
-                    <i class="ri ri-mail-line"></i>{{ $user->email }}
+                    <i class="ri ri-mail-line"></i>{{ $admin->email }}
                 </span>
-                @if($profile->location)
                 <span class="hero-chip">
-                    <i class="ri ri-map-pin-line"></i>{{ $profile->location }}
-                </span>
-                @endif
-                <span class="hero-chip">
-                    <i class="ri ri-calendar-line"></i>Joined {{ $user->created_at->format('M Y') }}
+                    <i class="ri ri-calendar-line"></i>Joined {{ $admin->created_at->format('M Y') }}
                 </span>
             </div>
         </div>
@@ -286,7 +272,8 @@
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="avatar-zone"
                                  onclick="document.getElementById('avatarInput').click()">
-                                <img src="{{asset('storage/' . $profile->avatarImage?->path)}}" alt="avatar" id="avatarPreview">
+                                <img src="{{ $admin->image ? asset('storage/' . $admin->image) : asset('assets/img/avatars/default.png') }}"
+                                     alt="avatar" id="avatarPreview">
                                 <div class="avatar-zone-overlay">
                                     <i class="ri ri-camera-line"></i> Change
                                 </div>
@@ -299,23 +286,23 @@
                                     JPG, PNG or WebP — max 2 MB
                                 </div>
 
-                                @if($profile->avatarImage?->path)
+                                @if($admin->image)
                                 <label class="check-row">
-                                    <input type="checkbox" name="remove_avatar" value="1"
-                                        id="removeAvatarCheck"
-                                        onchange="handleRemoveCheck(this)">
-                                        <span>Remove current photo</span>
+                                    <input type="checkbox" name="remove_image" value="1"
+                                           id="removeAvatarCheck"
+                                           onchange="handleRemoveCheck(this)">
+                                    <span>Remove current photo</span>
                                 </label>
                                 @endif
 
-                                @error('avatar')
+                                @error('image')
                                     <p class="field-error mb-0">
                                         <i class="ri ri-error-warning-line me-1"></i>{{ $message }}
                                     </p>
                                 @enderror
                             </div>
                         </div>
-                        <input type="file" name="avatar" id="avatarInput"
+                        <input type="file" name="image" id="avatarInput"
                                accept="image/jpeg,image/png,image/webp"
                                style="display:none"
                                onchange="previewAvatar(this)">
@@ -324,70 +311,35 @@
                             <i class="ri ri-profile-line" style="color:#696cff"></i> Basic Details
                         </div>
                         <div class="row g-3 mb-3">
-                            <div class="col-sm-6">
-                                <label class="form-label-mat">First Name <span class="req">*</span></label>
-                                <input type="text" name="first_name"
-                                       class="mat-input @error('first_name') is-invalid @enderror"
-                                       value="{{ old('first_name', $profile->first_name) }}" required>
-                                @error('first_name')
+                            <div class="col-sm-12">
+                                <label class="form-label-mat">Full Name <span class="req">*</span></label>
+                                <input type="text" name="name"
+                                       class="mat-input @error('name') is-invalid @enderror"
+                                       value="{{ old('name', $admin->name) }}" required>
+                                @error('name')
                                     <p class="field-error">
                                         <i class="ri ri-error-warning-line me-1"></i>{{ $message }}
                                     </p>
                                 @enderror
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label-mat">Last Name <span class="req">*</span></label>
-                                <input type="text" name="last_name"
-                                       class="mat-input @error('last_name') is-invalid @enderror"
-                                       value="{{ old('last_name', $profile->last_name) }}" required>
-                                @error('last_name')
+                                <label class="form-label-mat">Username <span class="req">*</span></label>
+                                <input type="text" name="username"
+                                       class="mat-input @error('username') is-invalid @enderror"
+                                       value="{{ old('username', $admin->username) }}" required>
+                                @error('username')
                                     <p class="field-error">
                                         <i class="ri ri-error-warning-line me-1"></i>{{ $message }}
                                     </p>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="mb-0">
-                            <label class="form-label-mat">
-                                Bio
-                                <span class="field-hint bio-counter">
-                                    <span id="bioCount">{{ strlen($profile->bio ?? '') }}</span> / 500
-                                </span>
-                            </label>
-                            <textarea name="bio" rows="3" maxlength="500" id="bioText"
-                                      class="mat-textarea @error('bio') is-invalid @enderror"
-                                      oninput="document.getElementById('bioCount').textContent=this.value.length"
-                                      placeholder="Write a short bio…">{{ old('bio', $profile->bio) }}</textarea>
-                            @error('bio')
-                                <p class="field-error">
-                                    <i class="ri ri-error-warning-line me-1"></i>{{ $message }}
-                                </p>
-                            @enderror
-                        </div>
-
-                    </div>
-                </div>{{-- /sec-card Personal --}}
-
-                {{-- ── Contact & Location ── --}}
-                <div class="sec-card anim anim-2">
-                    <div class="sec-card-header">
-                        <h6 class="sec-card-title">
-                            <i class="ri ri-map-pin-line"></i> Contact & Location
-                        </h6>
-                    </div>
-                    <div class="sec-card-body">
-
-                        <div class="section-label" style="margin-top:0">
-                            <i class="ri ri-phone-line" style="color:#696cff"></i> Contact
-                        </div>
-                        <div class="row g-3 mb-3">
                             <div class="col-sm-6">
                                 <label class="form-label-mat">Phone Number</label>
                                 <div class="input-icon-wrap">
                                     <i class="ri ri-phone-line i-icon"></i>
                                     <input type="tel" name="phone"
                                            class="mat-input @error('phone') is-invalid @enderror"
-                                           value="{{ old('phone', $profile->phone) }}"
+                                           value="{{ old('phone', $admin->phone) }}"
                                            placeholder="+20 100 000 0000">
                                 </div>
                                 @error('phone')
@@ -396,128 +348,15 @@
                                     </p>
                                 @enderror
                             </div>
-                            <div class="col-sm-6">
-                                <label class="form-label-mat">
-                                    Email <span class="badge-readonly">read-only</span>
-                                </label>
-                                <div class="input-icon-wrap">
-                                    <i class="ri ri-mail-line i-icon"></i>
-                                    <input type="email" value="{{ $user->email }}"
-                                           disabled class="mat-input">
-                                </div>
-                                <p class="field-hint">Managed from account settings.</p>
-                            </div>
-                        </div>
-
-                        <div class="section-label">
-                            <i class="ri ri-map-2-line" style="color:#696cff"></i> Location
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label-mat">Address</label>
-                            <div class="input-icon-wrap">
-                                <i class="ri ri-home-3-line i-icon"></i>
-                                <input type="text" name="address"
-                                       class="mat-input @error('address') is-invalid @enderror"
-                                       value="{{ old('address', $profile->address) }}"
-                                       placeholder="Street, building…">
-                            </div>
-                            @error('address')
-                                <p class="field-error">
-                                    <i class="ri ri-error-warning-line me-1"></i>{{ $message }}
-                                </p>
-                            @enderror
-                        </div>
-                        <div class="row g-3 mb-0">
-                            <div class="col-sm-6">
-                                <label class="form-label-mat">City</label>
-                                <input type="text" name="city"
-                                       class="mat-input @error('city') is-invalid @enderror"
-                                       value="{{ old('city', $profile->city) }}"
-                                       placeholder="Cairo">
-                                @error('city')
-                                    <p class="field-error">
-                                        <i class="ri ri-error-warning-line me-1"></i>{{ $message }}
-                                    </p>
-                                @enderror
-                            </div>
-                            <div class="col-sm-6">
-                                {{-- Select Country --}}
-                                <label class="form-label-mat">Country</label>
-                                <div class="select-wrap">
-                                    <select name="country"
-                                            class="mat-select @error('country') is-invalid @enderror">
-                                        <option value="">— Select —</option>
-                                        @foreach($countries as $code => $name)
-                                            <option value="{{ $code }}"
-                                                {{ old('country', $profile->country) === $code ? 'selected' : '' }}>
-                                                {{ $name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('country')
-                                    <p class="field-error">
-                                        <i class="ri ri-error-warning-line me-1"></i>{{ $message }}
-                                    </p>
-                                @enderror
-                            </div>
                         </div>
 
                     </div>
-                </div>{{-- /sec-card Contact --}}
+                </div>
 
-            </div>{{-- /col-lg-8 --}}
+            </div>
 
             {{-- ════ RIGHT col (4) ════ --}}
             <div class="col-lg-4">
-
-                {{-- ── Additional Info ── --}}
-                <div class="sec-card anim anim-2">
-                    <div class="sec-card-header">
-                        <h6 class="sec-card-title">
-                            <i class="ri ri-id-card-line"></i> Additional Info
-                        </h6>
-                    </div>
-                    <div class="sec-card-body">
-                        <div class="mb-3">
-                            <label class="form-label-mat">Date of Birth</label>
-                            <div class="input-icon-wrap">
-                                <i class="ri ri-cake-line i-icon"></i>
-                                <input type="date" name="birth_date"
-                                       class="mat-input @error('birth_date') is-invalid @enderror"
-                                       value="{{ old('birth_date', $profile->birth_date?->format('Y-m-d')) }}"
-                                       max="{{ now()->subDay()->format('Y-m-d') }}">
-                            </div>
-                            @error('birth_date')
-                                <p class="field-error">
-                                    <i class="ri ri-error-warning-line me-1"></i>{{ $message }}
-                                </p>
-                            @enderror
-                        </div>
-                        <div class="mb-0">
-                            <label class="form-label-mat">Gender</label>
-                            <div class="select-wrap">
-                                <select name="gender"
-                                        class="mat-select @error('gender') is-invalid @enderror">
-                                    <option value="">— Select —</option>
-                                    <option value="male"
-                                        {{ old('gender', $profile->gender) === 'male'   ? 'selected' : '' }}>
-                                        Male
-                                    </option>
-                                    <option value="female"
-                                        {{ old('gender', $profile->gender) === 'female' ? 'selected' : '' }}>
-                                        Female
-                                    </option>
-                                </select>
-                            </div>
-                            @error('gender')
-                                <p class="field-error">
-                                    <i class="ri ri-error-warning-line me-1"></i>{{ $message }}
-                                </p>
-                            @enderror
-                        </div>
-                    </div>
-                </div>{{-- /sec-card Additional --}}
 
                 {{-- ── Account Info ── --}}
                 <div class="sec-card anim anim-3">
@@ -528,33 +367,33 @@
                     </div>
                     <div class="sec-card-body" style="padding:.875rem 1.25rem">
                         <div class="meta-row">
+                            <span class="meta-label">Email</span>
+                            <span class="meta-value">{{ $admin->email }}</span>
+                        </div>
+                        <div class="meta-row">
                             <span class="meta-label">Member since</span>
-                            <span class="meta-value">{{ $user->created_at->format('d M Y') }}</span>
+                            <span class="meta-value">{{ $admin->created_at->format('d M Y') }}</span>
                         </div>
                         <div class="meta-row">
-                            <span class="meta-label">Last updated</span>
-                            <span class="meta-value">{{ $profile->updated_at->format('d M Y') }}</span>
-                        </div>
-                        <div class="meta-row">
-                            <span class="meta-label">User ID</span>
-                            <span class="meta-value accent">#{{ $user->id }}</span>
+                            <span class="meta-label">Admin ID</span>
+                            <span class="meta-value accent">#{{ $admin->id }}</span>
                         </div>
                         <div class="meta-row">
                             <span class="meta-label">Role</span>
                             <span class="meta-value">Administrator</span>
                         </div>
                     </div>
-                </div>{{-- /sec-card Account --}}
+                </div>
 
-            </div>{{-- /col-lg-4 --}}
+            </div>
 
-        </div>{{-- /row --}}
+        </div>
 
         {{-- ══ Submit Bar ══ --}}
         <div class="submit-bar mt-2 anim anim-4">
             <p class="submit-bar-info">
                 <i class="ri ri-information-line me-1" style="color:#696cff"></i>
-                Editing: <strong style="color:#4b465c">{{ $profile->full_name }}</strong>
+                Editing: <strong style="color:#4b465c">{{ $admin->name }}</strong>
             </p>
             <div class="d-flex gap-2 align-items-center">
                 <a href="{{ route('dashboard') }}" class="btn-cancel">
@@ -577,13 +416,11 @@
     const url = URL.createObjectURL(input.files[0]);
     document.getElementById('avatarPreview').src = url;
     document.getElementById('heroAvatar').src    = url;
-    // لو اختار صورة جديدة، شيل تيك remove تلقائياً
     const removeCheck = document.getElementById('removeAvatarCheck');
     if (removeCheck) removeCheck.checked = false;
   }
 
   function handleRemoveCheck(checkbox) {
-    // لو عمل تيك على remove، امسح الـ file input
     if (checkbox.checked) {
       document.getElementById('avatarInput').value = '';
     }

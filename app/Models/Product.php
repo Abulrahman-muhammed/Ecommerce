@@ -72,6 +72,13 @@ public function scopeFilter($query, $filters)
 
     return $query;
 }
+
+    // active scope
+    public function scopeActive($query)
+    {
+        return $query->where('status', ProductStatusEnum::ACTIVE);
+    }
+
     // image relationship
     public function images()
     {
@@ -87,7 +94,13 @@ public function scopeFilter($query, $filters)
     {
         return $this->morphOne(Image::class, 'imageable')
                     ->where('usage', ProductImageUsage::PRODUCT_MAIN_IMAGE->value);
-    }       
+    } 
+    
+    // accessor for getting main image url
+    public function getMainImageUrlAttribute()
+    {
+        return $this->mainImage ? asset('storage/' . $this->mainImage->path) : asset('storage/products/default.jpeg');
+    }
     // global scope for active products only
     // protected static function booted()
     // {
@@ -95,5 +108,29 @@ public function scopeFilter($query, $filters)
     //         $query->where('status', ProductStatusEnum::ACTIVE);
     //     });
     // }   
+
+    // accessor for getting product rating as stars
+public function getStarsAttribute()
+{
+    $rating = round($this->rating * 2) / 2;
+
+    $full  = floor($rating);
+    $half  = $rating - $full >= 0.5 ? 1 : 0;
+    $empty = 5 - $full - $half;
+
+    return [
+        'full'  => $full,
+        'half'  => $half,
+        'empty' => $empty
+    ];
+}
+        // accessor for calculating  discount percentage
+        public function getDiscountPercentageAttribute()
+        {
+            if ($this->compare_price > $this->price) {
+                return round((($this->compare_price - $this->price) / $this->compare_price) * 100);
+            }
+            return 0;
+        }
 
 }

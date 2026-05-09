@@ -111,7 +111,7 @@
 
     <!-- Orders -->
     <li class="menu-item {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
-      <a href="#" class="menu-link">
+      <a href="{{ route('admin.orders.index') }}" class="menu-link">
         <i class="menu-icon ri ri-shopping-cart-2-line"></i>
         <div>Orders</div>
       </a>
@@ -119,7 +119,7 @@
 
     <!-- Customers -->
     <li class="menu-item {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
-      <a href="#" class="menu-link">
+      <a href="{{ route('admin.customers.index') }}" class="menu-link">
         <i class="menu-icon ri ri-user-3-line"></i>
         <div>Customers</div>
       </a>
@@ -127,7 +127,7 @@
 
     <!-- Payments -->
     <li class="menu-item {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
-      <a href="#" class="menu-link">
+      <a href="{{ route('admin.payments.index') }}" class="menu-link">
         <i class="menu-icon ri ri-bank-card-line"></i>
         <div>Payments</div>
       </a>

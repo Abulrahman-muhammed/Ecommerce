@@ -26,7 +26,7 @@ class CategoryController extends Controller
     {
         $categories = Category::with('parent','images')
         ->withoutTrashed()
-        ->filter(request()->only(['search' , 'status']))
+        ->filter(request()->only(['search' , 'status' , 'is_featured']))
         ->latest()
         ->paginate(10)
         ->withQueryString();
@@ -53,7 +53,9 @@ class CategoryController extends Controller
         try {
             $data = $request->validated();
             $data['slug'] = Str::slug($data['name']);
+            $data['is_featured'] = (bool) $request->input('is_featured', 0);
             $category = Category::create($data);
+
 
             // image upload
         if ($request->hasFile('image')) {
@@ -97,6 +99,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $data = $request->validated();
         $data['slug'] = Str::slug($data['name']);
+        $data['is_featured'] = (bool) $request->input('is_featured', 0);
         $category->update($data);
 
         // image upload => if image is uploaded, delete old image and upload new image
@@ -137,7 +140,7 @@ class CategoryController extends Controller
     {
         $categories = Category::with('parent','images')
         ->onlyTrashed()
-        ->filter(request()->only(['search' , 'status']))
+        ->filter(request()->only(['search' , 'status' , 'is_featured']))
         ->latest()
         ->paginate(10)
         ->withQueryString();

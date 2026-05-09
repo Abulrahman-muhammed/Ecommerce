@@ -226,6 +226,50 @@
         background: var(--accent);
     }
 
+    /* ── Featured toggle ── */
+    .toggle-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding-top: 0.25rem;
+    }
+    .toggle-switch {
+        position: relative;
+        width: 44px;
+        height: 24px;
+        flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-track {
+        position: absolute;
+        inset: 0;
+        background: var(--border);
+        border-radius: 50px;
+        cursor: pointer;
+        transition: background 0.22s;
+    }
+    .toggle-track::after {
+        content: '';
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(0,0,0,.18);
+        transition: transform 0.22s;
+    }
+    .toggle-switch input:checked + .toggle-track { background: var(--accent); }
+    .toggle-switch input:checked + .toggle-track::after { transform: translateX(20px); }
+    .toggle-meta { display: flex; flex-direction: column; gap: 1px; }
+    .toggle-meta strong {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+    .toggle-meta small { font-size: 0.74rem; color: var(--text-muted); }
+
     /* ── Helper / Error text ── */
     .f-hint {
         font-size: 0.76rem;
@@ -368,6 +412,26 @@
                         </div>
                     </div>
 
+                    {{-- Featured --}}
+                    <div class="col-md-6">
+                        <div class="field-group">
+                            <label class="f-label">Featured</label>
+                            <div class="toggle-wrap">
+                                <label class="toggle-switch">
+                                    <input type="hidden" name="is_featured" value="0">
+                                    <input type="checkbox" name="is_featured" value="1"
+                                           id="is_featured"
+                                           {{ old('is_featured') ? 'checked' : '' }}>
+                                    <span class="toggle-track"></span>
+                                </label>
+                                <div class="toggle-meta">
+                                    <strong>Show as Featured</strong>
+                                    <small>Featured categories appear in highlighted sections.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {{-- Image --}}
                     <div class="col-md-6">
                         <div class="field-group">
@@ -397,7 +461,7 @@
                         Cancel
                     </a>
                     <button type="submit" class="btn-submit">
-                        <i class="ri-save-line"></i> Create Category
+                        <i class="ri ri-save-line"></i> Create Category
                     </button>
                 </div>
 
