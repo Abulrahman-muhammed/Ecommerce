@@ -78,7 +78,46 @@ public function scopeFilter($query, $filters)
     {
         return $query->where('status', ProductStatusEnum::ACTIVE);
     }
+public function scopeFrontFilter($query, array $filters)
+{
+    // Search
+    if (!empty($filters['search'])) {
+        $query->where(function ($q) use ($filters) {
+            $q->where('name', 'like', "%{$filters['search']}%")
+                ->orWhere('description', 'like', "%{$filters['search']}%");
+        });
+    }
 
+    // Category
+    if (!empty($filters['category'])) {
+        $query->where('category_id', (int) $filters['category']);
+    }
+
+    // Price range
+    if (!empty($filters['min_price'])) {
+        $query->where('price', '>=', (float) $filters['min_price']);
+    }
+    if (!empty($filters['max_price'])) {
+        $query->where('price', '<=', (float) $filters['max_price']);
+    }
+
+    return $query;
+}
+
+/**
+ * Sorting scope
+ */
+public function scopeSorted($query, ?string $sort)
+{
+    return match ($sort) {
+        'price_asc'  => $query->orderBy('price', 'asc'),
+        'price_desc' => $query->orderBy('price', 'desc'),
+        'rating'     => $query->orderBy('rating', 'desc'),
+        'name_asc'   => $query->orderBy('name', 'asc'),
+        'name_desc'  => $query->orderBy('name', 'desc'),
+        default      => $query->latest(),   // popularity / newest
+    };
+}
     // image relationship
     public function images()
     {

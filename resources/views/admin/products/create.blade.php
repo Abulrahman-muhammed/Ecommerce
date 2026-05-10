@@ -236,7 +236,16 @@
     text-decoration: none; transition: all .2s;
 }
 .btn-cancel:hover { border-color: #696cff; color: #696cff; background: rgba(105,108,255,.04); }
-
+.btn-ai-generate {
+    display:inline-flex; align-items:center; gap:.4rem;
+    font-size:.8125rem; font-weight:600; color:#fff;
+    background: linear-gradient(135deg,#696cff,#9155fd);
+    border:none; border-radius:.375rem; padding:.5rem 1rem;
+    cursor:pointer; white-space:nowrap; flex-shrink:0;
+    transition:all .2s; box-shadow:0 4px 12px rgba(105,108,255,.35);
+}
+.btn-ai-generate:hover { opacity:.88; transform:translateY(-1px); }
+.btn-ai-generate:disabled { opacity:.6; cursor:not-allowed; transform:none; }
 /* ── Animations ── */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .anim   { animation: fadeUp .3s ease both; }
@@ -296,10 +305,15 @@
 
                         <div class="mb-3">
                             <label class="form-label-mat">Product Name <span class="req">*</span></label>
-                            <input type="text" name="name" id="product-name"
-                                   class="mat-input @error('name') is-invalid @enderror"
-                                   placeholder="e.g. Nike Air Max 270"
-                                   value="{{ old('name') }}" autocomplete="off">
+                                <div style="display:flex;gap:.5rem;align-items:flex-start">
+                                    <input type="text" name="name" id="product-name"
+                                        class="mat-input @error('name') is-invalid @enderror"
+                                        placeholder="e.g. Nike Air Max 270"
+                                        value="{{ old('name') }}" autocomplete="off" style="flex:1">
+                                    <button type="button" id="ai-generate-btn" class="btn-ai-generate">
+                                        <i class="ri ri-sparkling-line"></i> Generate with AI
+                                    </button>
+                                </div>
                             @error('name')
                                 <p class="field-error"><i class="ri ri-error-warning-line me-1"></i>{{ $message }}</p>
                             @enderror
@@ -766,4 +780,91 @@ document.getElementById('product-form').addEventListener('submit', function (e) 
     formEl.submit();
 });
 </script>
+
+<script>
+document
+    .getElementById('ai-generate-btn')
+    .addEventListener('click', async function () {
+
+        const name = document.getElementById('product-name').value.trim();
+
+        if (!name) {
+            document.getElementById('product-name').focus();
+            return;
+        }
+
+        this.disabled  = true;
+        this.innerHTML = '<i class="ri ri-loader-4-line" style="animation:spin .8s linear infinite"></i> Generating…';
+
+        try {
+            const response = await fetch(
+                "{{ route('admin.products.generate-content') }}",
+                {
+                    method:  'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({ name }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.message ?? 'Generation failed');
+            }
+
+            // ── Description ──
+            if (data.description) {
+                document.querySelector('textarea[name="description"]').value = data.description;
+            }
+
+            // ── Category ──
+            if (data.category_id) {
+                const categorySelect = document.querySelector('select[name="category_id"]');
+                if (categorySelect) {
+                    categorySelect.value = data.category_id;
+                }
+            }
+
+            // ── Tags ──
+            // شغّال مع أي نوع tag UI — checkboxes أو multi-select
+            if (data.tag_ids && data.tag_ids.length) {
+
+                // لو الـ tags عبارة عن checkboxes (الأشيع في الـ _tags_section)
+                document.querySelectorAll('input[name="tags[]"]').forEach(cb => {
+                    cb.checked = data.tag_ids.includes(parseInt(cb.value));
+                });
+
+                // لو في multi-select برضو
+                const tagSelect = document.querySelector('select[name="tags[]"]');
+                if (tagSelect) {
+                    Array.from(tagSelect.options).forEach(opt => {
+                        opt.selected = data.tag_ids.includes(parseInt(opt.value));
+                    });
+                }
+            }
+
+            // ── Success feedback ──
+            this.innerHTML = '<i class="ri ri-check-line"></i> Done!';
+            this.style.background = 'linear-gradient(135deg,#28c76f,#20a85e)';
+            await new Promise(r => setTimeout(r, 1500));
+            this.style.background = '';
+
+        } catch (err) {
+            console.error('AI Generate error:', err);
+            this.innerHTML = '<i class="ri ri-error-warning-line"></i> Failed – Retry';
+            this.style.background = 'linear-gradient(135deg,#ea5455,#c94040)';
+            await new Promise(r => setTimeout(r, 2000));
+            this.style.background = '';
+        }
+
+        this.disabled  = false;
+        this.innerHTML = '<i class="ri ri-sparkling-line"></i> Generate with AI';
+    });
+
+</script>
+
+
 @endpush

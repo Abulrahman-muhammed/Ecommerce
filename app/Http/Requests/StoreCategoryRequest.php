@@ -24,7 +24,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
         'name' => 'required|string|max:255|unique:categories,name',
-        'description' => 'required|string',
+        'description' => 'nullable|string',
         'status' => 'required|in:' . implode(',', CategoryStatusEnum::getValues()),
         'slug' => 'nullable|string|max:255|unique:categories,slug',
         'parent_id' => 'nullable|exists:categories,id|not_in:'.$this->route('category'),
@@ -43,7 +43,7 @@ class StoreCategoryRequest extends FormRequest
             'name.string' => 'Name must be a string',
             'name.max' => 'Name must be less than 255 characters',
             'name.unique' => 'Name must be unique',
-            'description.required' => 'Description is required',
+            'description.nullable' => 'Description is nullable',
             'description.string' => 'Description must be a string',
             'status.required' => 'Status is required',
             'status.in' => 'Status must be ' . implode(',', CategoryStatusEnum::getValues()),

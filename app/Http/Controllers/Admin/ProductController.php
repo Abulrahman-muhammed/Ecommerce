@@ -14,11 +14,14 @@ use App\Enums\CategoryStatusEnum;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tag;
-
+use App\Services\AI\GenerateProductContentService;
 class ProductController extends Controller
 {
     private const PAGINATION_COUNT = 10;
-    public function __construct(protected ImageUploadService $imageService) {}
+    public function __construct(
+        protected ImageUploadService $imageService,
+        protected GenerateProductContentService $aiService
+        ) {}
 
     public function index(Request $request)
     {
@@ -192,4 +195,42 @@ class ProductController extends Controller
             }
         }
     }
+
+
+    /**
+     * Handle AI product name generation 
+     */
+public function generate(Request $request)
+{
+    $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+    ]);
+
+    // ── ابعت الـ categories والـ tags الموجودين للـ service ──
+    $categories = $this->activeCategories()->map(fn($c) => [
+        'id'   => $c->id,
+        'name' => $c->name,
+    ])->values()->toArray();
+
+    $tags = Tag::orderBy('name')->get()->map(fn($t) => [
+        'id'   => $t->id,
+        'name' => $t->name,
+    ])->values()->toArray();
+
+    $content = $this->aiService->generateContent($request->name, $categories, $tags);
+
+    if (!$content) {
+        return response()->json([
+            'success' => false,
+            'message' => 'AI generation failed. Please try again.',
+        ], 500);
+    }
+
+    return response()->json([
+        'success'     => true,
+        'description' => $content['description']  ?? '',
+        'category_id' => $content['category_id']  ?? null,
+        'tag_ids'     => $content['tag_ids']       ?? [],
+    ]);
+}
 }

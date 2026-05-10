@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\TagController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +54,23 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
 
     /*
     |----------------------------------------------------------------------
+    | Settings
+    |----------------------------------------------------------------------
+    */
+
+        Route::get(
+            'settings',
+            [SettingController::class, 'index']
+        )->name('settings.index');
+
+        Route::put(
+            'settings',
+            [SettingController::class, 'update']
+        )->name('settings.update');
+
+
+    /*
+    |----------------------------------------------------------------------
     | Products
     |----------------------------------------------------------------------
     */
@@ -61,6 +78,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::get('trashed',             [AdminProductController::class, 'trashed'])    ->name('trashed');
         Route::patch('{id}/restore',      [AdminProductController::class, 'restore'])    ->name('restore');
         Route::delete('{id}/force-delete',[AdminProductController::class, 'forceDelete'])->name('force-delete');
+        Route::post('/ai/generate-content', [AdminProductController::class, 'generate'])->name('generate-content');
     });
     Route::resource('products', AdminProductController::class);
 

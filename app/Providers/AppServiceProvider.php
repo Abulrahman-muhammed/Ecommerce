@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Repositories\cart\CartRepository;
 use App\Repositories\cart\CartRepositoryInterface;
+use Illuminate\Support\Facades\View;
+use App\Settings\GeneralSettings;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -22,5 +24,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+        View::share(
+            'generalSettings',
+            app(GeneralSettings::class)
+        );
     }
 }

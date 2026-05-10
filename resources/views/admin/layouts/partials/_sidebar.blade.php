@@ -147,7 +147,7 @@
 
       <li class="menu-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
         <a
-          href="#"
+          href="{{ route('admin.settings.index') }}"
           class="menu-link">
           <i class="menu-icon ri ri-settings-3-line"></i>
           <div data-i18n="Calendar">Settings</div>
