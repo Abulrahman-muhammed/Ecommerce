@@ -80,7 +80,11 @@ public function scopeFilter($query, $filters)
     {
         return $this->getImageAttribute() ? asset('storage/' . $this->getImageAttribute()->path) : null;
     }
-
+    // get products count
+    public function getProductsCountAttribute()
+    {
+        return $this->products()->active()->count();
+    }
     public function scopeActive($query)
     {
         return $query->where('status', CategoryStatusEnum::ACTIVE);
